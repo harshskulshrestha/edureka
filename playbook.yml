@@ -1,0 +1,45 @@
+- hosts: all
+  become: yes
+  tasks:
+  - name: update cache
+    apt:
+      update-cache: yes
+  - name: install needed packages
+    apt:
+      name: apt-transport-https,ca-certificates,curl,gnupg-agent,software-properties-common
+  - name: add dockers official key
+    apt_key:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      state: present
+  - name: add dockers repo
+    apt_repository:
+      repo: deb  https://download.docker.com/linux/ubuntu bionic stable
+      state: present
+      update-cache: yes
+  - name: install docker
+    apt:
+      name: docker-ce,docker-ce-cli,containerd.io
+      state: present
+
+  - name: install open-jdk-8
+    apt:
+      name: openjdk-8-jdk
+      state: present
+
+  - name: install maven
+    apt:
+      name: maven
+      state: present
+  - name: add chromes official key
+    apt_key:
+      url: https://dl-ssl.google.com/linux/linux_signing_key.pub
+      state: present
+  - name: add chromes repo
+    apt_repository:
+      repo: deb http://dl.google.com/linux/chrome/deb/ stable main
+      state: present
+      update-cache: yes
+  - name: install google chrome    
+    apt:
+      name: google-chrome-stable
+      state: present
